@@ -1,3 +1,5 @@
+#!/bin/python
+
 import os #imports required for calls later on
 import sys
 
