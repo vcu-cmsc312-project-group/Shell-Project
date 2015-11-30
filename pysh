@@ -10,7 +10,9 @@ import io
 ## 3. Take commandline input from a file 
 
 pwd = os.getcwd()
-prompt = pwd + '$ '
+
+def prompt():
+    return '[' + os.getlogin() + ' ' + pwd + ']$ '
 
 def builtin_clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -22,7 +24,7 @@ def builtin_chdir(path):
     else:
         try:
             os.chdir(path)
-            pwd = path
+            pwd = os.getcwd()
         except OSError as e:
             print(e, file=sys.stderr)
 
@@ -46,7 +48,7 @@ def builtin_pwd():
     print(pwd)
 
 while(True):
-    command = input(prompt)
+    command = input(prompt())
     args = command.split(' ', 1)
     cmdargs = args[1] if len(args) > 1 else None
 
