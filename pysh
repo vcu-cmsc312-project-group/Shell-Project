@@ -61,10 +61,13 @@ def builtin_help():
       #  proc.wait()
         
 def builtin_file(cmdargs):
-    with open(cmdargs) as f:
-        for line in f:
-            line = line.strip()
-            builtin_commandcall(line)
+    try:
+        with open(cmdargs) as f:
+            for line in f:
+                line = line.strip()
+                builtin_commandcall(line)
+    except e:
+        print(e)
 
 def builtin_commandcall(line):
     line = line.split(' ', 1)
@@ -83,7 +86,8 @@ def builtin_commandcall(line):
         builtin_echo(lines)
     elif line[0] in ("help"):
         builtin_help()
-    
+    else:
+        builtin_file(line[0])
 
 while(True):
     cmd = input(prompt())
