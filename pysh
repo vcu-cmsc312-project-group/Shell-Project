@@ -69,19 +69,19 @@ def builtin_file(cmdargs):
 def builtin_commandcall(line):
     line = line.split(' ', 1)
     lines = line[1] if len(line) > 1 else None
-    if line[0] == "quit":
+    if   line[0] in ("quit", "exit"):
         sys.exit()
-    elif line[0] == "dir":
+    elif line[0] in ("dir", "ls"):
         builtin_dir(lines)
-    elif line[0] == "cd":
+    elif line[0] in ("cd", "chdir"):
         builtin_chdir(lines)
-    elif line[0] == "clr":
+    elif line[0] in ("clr", "cls", "clear"):
         builtin_clear()
     elif line[0] == "pause":
         builtin_pause()
     elif line[0] == "echo":
         builtin_echo(lines)
-    elif line[0] in ("help","-h"):
+    elif line[0] in ("help"):
         builtin_help()
     
 
