@@ -1,0 +1,9 @@
+cd 		change directory
+cd .. 		change to upper directory
+dir 		display directory
+clr 		clear the screen
+eviron 		display environmental variables
+echo 
+-h, help 	print this help 
+pause 		pause the shell until enter is pressed
+quit 		exit the shell
