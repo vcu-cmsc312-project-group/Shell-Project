@@ -86,23 +86,5 @@ def builtin_commandcall(line):
     
 
 while(True):
-    command = input(prompt())
-    args = command.split(' ', 1)
-    cmdargs = args[1] if len(args) > 1 else None
-    print (cmdargs)
-    if args[0] == "quit":
-        sys.exit()
-    elif args[0] == "dir":
-        builtin_dir(cmdargs)
-    elif args[0] == "cd":
-        builtin_chdir(cmdargs)
-    elif args[0] == "clr":
-        builtin_clear()
-    elif args[0] == "pause":
-        builtin_pause()
-    elif args[0] == "echo":
-        builtin_echo(cmdargs)
-    elif args[0] in ("help","-h"):
-        builtin_help()
-    elif args[0] == "myshell":
-        builtin_file(cmdargs)
+    cmd = input(prompt())
+    builtin_commandcall(cmd)
