@@ -8,10 +8,6 @@ import io
 import subprocess
 from io import open
 
-## Still Left to do:
-## 2. Check assignment but it appears to deal with executing programs
-## Make sure it works on Jasmine 
-
 pwd = os.getcwdu()
 os.environ["SHELL"] = sys.argv[0]
 
