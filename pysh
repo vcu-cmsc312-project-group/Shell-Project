@@ -56,19 +56,19 @@ def builtin_environ():
         print(os.environ.get(key))
 
 def builtin_proc(args):
-    proc = subprocess.call(args)
-
+    return subprocess.call(args)
+        
 def builtin_file(cmdargs):
     try:
-        with open(cmdargs) as f:
+        builtin_proc(cmdargs)
+    except:
+        with open(cmdargs[0]) as f:
             for line in f:
                 line = line.strip()
                 builtin_commandcall(line)
-    except e:
-        print(e)
 
 def builtin_commandcall(line):
-    line = line.split(' ', 1)
+    line = line.split(' ')
     lines = line[1] if len(line) > 1 else None
     if   line[0] in ("quit", "exit"):
         sys.exit()
@@ -87,7 +87,10 @@ def builtin_commandcall(line):
     elif line[0] == ("environ"):
         builtin_environ()
     else:
-        builtin_file(line[0])
+        try:
+            builtin_file(line)
+        except:
+            print("Error: " + line[0] + " is not a command, shell script, or executable.")
 
 while(True):
     cmd = input(prompt())
