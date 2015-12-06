@@ -4,10 +4,10 @@ import os
 import sys
 import io
 import subprocess
+
 ## Still Left to do:
-## Environ, Help 
 ## 2. Check assignment but it appears to deal with executing programs
-## 3. Take commandline input from a file 
+## Make sure it works on Jasmine 
 
 pwd = os.getcwd()
 
@@ -51,15 +51,13 @@ def builtin_help():
     file = open("help.txt")
     print(file.read())
 
-#def builtin_proc(args):
- #   try:
-  #      proc = subprocess.Popen(args, executable = args[0], stdin = sys.stdin, stdout = sys.stdout, stderr = sys.stderr)
-  #  except OSError as e:
-   #     print(e)
-    #else:
-     #   print("Executing child process", proc.pid)
-      #  proc.wait()
-        
+def builtin_environ():
+    for key in os.environ.keys():
+        print(os.environ.get(key))
+
+def builtin_proc(args):
+    proc = subprocess.call(args)
+
 def builtin_file(cmdargs):
     try:
         with open(cmdargs) as f:
@@ -86,6 +84,8 @@ def builtin_commandcall(line):
         builtin_echo(lines)
     elif line[0] in ("help"):
         builtin_help()
+    elif line[0] == ("environ"):
+        builtin_environ()
     else:
         builtin_file(line[0])
 
