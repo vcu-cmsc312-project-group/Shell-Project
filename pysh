@@ -12,10 +12,10 @@ pwd = os.getcwd()
 os.environ["SHELL"] = sys.argv[0]
 
 def prompt():
-    return '[' + os.getlogin() + ' ' + pwd + ']$ '
+    return "[" + os.getlogin() + " " + pwd + "]$ "
 
 def builtin_clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system("cls" if os.name == "nt" else "clear")
 
 def builtin_chdir(path):
     global pwd
@@ -71,8 +71,8 @@ def builtin_file(cmdargs):
                 builtin_commandcall(line)
 
 def builtin_commandcall(line):
-    line = line.split(' ')
-    args = ' '.join(line[1:]) if len(line) > 1 else None
+    line = line.split(" ")
+    args = " ".join(line[1:]) if len(line) > 1 else None
     if   line[0] in ("quit", "exit"):
         sys.exit()
     elif line[0] in ("dir", "ls"):
