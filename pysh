@@ -1,15 +1,18 @@
-#!/bin/python
+#!/bin/python2
 
+from __future__ import with_statement
+from __future__ import absolute_import
 import os
 import sys
 import io
 import subprocess
+from io import open
 
 ## Still Left to do:
 ## 2. Check assignment but it appears to deal with executing programs
 ## Make sure it works on Jasmine 
 
-pwd = os.getcwd()
+pwd = os.getcwdu()
 os.environ["SHELL"] = sys.argv[0]
 
 def prompt():
@@ -21,41 +24,41 @@ def builtin_clear():
 def builtin_chdir(path):
     global pwd
     if path == None:
-        print(pwd)
+        print pwd
     else:
         try:
             os.chdir(path)
-            pwd = os.getcwd()
+            pwd = os.getcwdu()
             os.environ["PWD"] = pwd
-        except OSError as e:
-            print(e)
+        except OSError, e:
+            print e
 
 def builtin_dir(path):
     try:
-        contents = os.listdir(path)
+        contents = os.listdir(path or pwd)
         contents.sort()
         for f in contents:
-            print(f)
-    except OSError as e:
-        print(e)
+            print f
+    except OSError, e:
+        print e
 
 def builtin_echo(txt):
     if txt is not None:
-        print(txt)
+        print txt
 
 def builtin_pause():
     sys.stdin.read(1)
 
 def builtin_pwd():
-    print(pwd)
+    print pwd
 
 def builtin_help():
     file = open("help.txt")
-    print(file.read())
+    print file.read()
 
 def builtin_environ():
     for key in os.environ.keys():
-        print(key + ": " + os.environ.get(key))
+        print key + ": " + os.environ.get(key)
 
 def builtin_proc(args):
     subprocenv = os.environ
@@ -73,32 +76,34 @@ def builtin_file(cmdargs):
 
 def builtin_commandcall(line):
     line = line.split(' ')
-    lines = line[1] if len(line) > 1 else None
+    args = ' '.join(line[1:]) if len(line) > 1 else None
     if   line[0] in ("quit", "exit"):
         sys.exit()
     elif line[0] in ("dir", "ls"):
-        builtin_dir(lines)
+        builtin_dir(args)
     elif line[0] in ("cd", "chdir"):
-        builtin_chdir(lines)
+        builtin_chdir(args)
     elif line[0] in ("clr", "cls", "clear"):
         builtin_clear()
     elif line[0] == "pause":
         builtin_pause()
     elif line[0] == "echo":
-        builtin_echo(lines)
-    elif line[0] in ("help"):
+        builtin_echo(args)
+    elif line[0] == "help":
         builtin_help()
-    elif line[0] == ("environ"):
+    elif line[0] == "environ":
         builtin_environ()
+    elif line[0] in ("pwd", "cwd"):
+        builtin_pwd()
     else:
         try:
             builtin_file(line)
         except:
-            print("Error: " + line[0] + " is not a command, shell script, or executable.")
+            print "Error: " + line[0] + " is not a command, shell script, or executable."
 
 if len(sys.argv) > 1:
     builtin_commandcall(sys.argv[1])
 
 while(True):
-    cmd = input(prompt())
+    cmd = raw_input(prompt())
     builtin_commandcall(cmd)
