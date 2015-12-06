@@ -96,6 +96,9 @@ def builtin_commandcall(line):
         except:
             print("Error: " + line[0] + " is not a command, shell script, or executable.")
 
+if len(sys.argv) > 1:
+    builtin_commandcall(sys.argv[1])
+
 while(True):
     cmd = input(prompt())
     builtin_commandcall(cmd)
