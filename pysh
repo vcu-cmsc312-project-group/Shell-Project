@@ -10,6 +10,7 @@ import subprocess
 ## Make sure it works on Jasmine 
 
 pwd = os.getcwd()
+os.environ["SHELL"] = sys.argv[0]
 
 def prompt():
     return '[' + os.getlogin() + ' ' + pwd + ']$ '
@@ -25,8 +26,9 @@ def builtin_chdir(path):
         try:
             os.chdir(path)
             pwd = os.getcwd()
+            os.environ["PWD"] = pwd
         except OSError as e:
-            print(e, file=sys.stderr)
+            print(e)
 
 def builtin_dir(path):
     try:
@@ -35,7 +37,7 @@ def builtin_dir(path):
         for f in contents:
             print(f)
     except OSError as e:
-        print(e, file=sys.stderr)
+        print(e)
 
 def builtin_echo(txt):
     if txt is not None:
@@ -53,10 +55,12 @@ def builtin_help():
 
 def builtin_environ():
     for key in os.environ.keys():
-        print(os.environ.get(key))
+        print(key + ": " + os.environ.get(key))
 
 def builtin_proc(args):
-    return subprocess.call(args)
+    subprocenv = os.environ
+    subprocenv.update({"PARENT": os.environ["SHELL"]})
+    return subprocess.call(args, env = subprocenv)
         
 def builtin_file(cmdargs):
     try:
